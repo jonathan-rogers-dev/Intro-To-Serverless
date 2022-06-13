@@ -1,17 +1,18 @@
-const fetch = require('node-fetch')
-
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
-    const resp = await fetch("https://bit-cat.azurewebsites.net/cat/says/serverless", {
-        method: 'GET'
-    });
-    
-    const data = await resp.arrayBuffer()
+    let password = req.query.password;
+    let response = "Access denied.";
 
-    var base64data = Buffer.from(data).toString('base64')
+    if (password === "letmein") {
+        response = "Access granted.";
+    }
+
+    const your_response = response;
+
 
     context.res = {
-        body: { base64data }
-    }
+        // status: 200, /* Defaults to 200 */
+        body: your_response
+    };
 }
