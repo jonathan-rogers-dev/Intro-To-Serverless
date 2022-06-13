@@ -2,10 +2,10 @@ module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
     let password = req.query.password;
-    let response = "Access Denied";
+    let response = "Access denied.";
 
     if (password === "letmein") {
-        response = "Access Granted";
+        response = "Access granted.";
     }
 
     const your_response = response;
