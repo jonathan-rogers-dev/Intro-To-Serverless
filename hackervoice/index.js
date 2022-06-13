@@ -1,18 +1,19 @@
+const fetch = require('node-fetch')
+
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
-    let password = req.query.password;
-    let response = "Access denied.";
+    const resp = await fetch("https://bit-cat.azurewebsites.net/cat/says/serverless", {
+        method: 'GET'
+    });
+    
+    const data = await resp.arrayBuffer()
+    // we need to receive it as a buffer since this is an image we are receiving from the API
+    // Buffer?? https://developer.mozilla.org/en-US/docs/Web/API/Blob
 
-    if (password === "letmein") {
-        response = "Access granted.";
-    }
-
-    const your_response = response;
-
+    var base64data = Buffer.from(data).toString('base64')
 
     context.res = {
-        // status: 200, /* Defaults to 200 */
-        body: your_response
-    };
+        body: { base64data }
+    }
 }
