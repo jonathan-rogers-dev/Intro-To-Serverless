@@ -13,25 +13,29 @@ module.exports = async function (context, req) {
         return resultname
     }
     
+    async function getImage() {
+        let resp = await fetch("https://bit-cat.azurewebsites.net/cat/says/serverless", {
+            method: 'GET'
+        });
 
-    const respOne = await fetch("https://bit-cat.azurewebsites.net/cat/says/serverless", {
-        method: 'GET'
-    });
-    const respTwo = await fetch("https://bit-cat.azurewebsites.net/cat/says/serverless", {
-        method: 'GET'
-    });
-    
-    const dataOne = await respOne.arrayBuffer()
-    const dataTwo = await respTwo.arrayBuffer()
+        let data = await resp.arrayBuffer();
 
-    var base64dataOne = Buffer.from(dataOne).toString('base64')
-    var base64dataTwo = Buffer.from(dataTwo).toString('base64')
+        var base64data = Buffer.from(data).toString('base64');
+
+        return base64data
+
+    }
+
+    var firstcat = await getImage();
+    var secondcat = await getImage();
+    var name1 = await getName();
+    var name2 = await getName();
 
     context.res = {
         body: {
-            cat1: base64dataOne,
-            cat2: base64dataTwo,
-            names: [getName(), getName()]
+            cat1: firstcat,
+            cat2: secondcat,
+            names: [name1, name2]
         }
     }
 }
