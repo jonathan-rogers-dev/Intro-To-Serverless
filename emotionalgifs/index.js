@@ -21,18 +21,24 @@ module.exports = async function (context, req) {
     let objects = Object.values(emotions);
     const main_emotion = Object.keys(emotions).find(key => emotions[key] === Math.max(...objects));
 
+
+    //const GIPHY_API_KEY = process.env.GIPHY_API_KEY;
+    const GIPHY_API_KEY = process.env.GIPHY_API_KEY
+    const resp = await fetch("https://api.giphy.com/v1/gifs/translate?api_key=" + GIPHY_API_KEY + "&limit=1&s=" + main_emotion);
+    const jsonResult = await resp.json();
+
+    context.log(jsonResult);
+
     context.res = {
-        body: {
-            main_emotion
-        }
+        body: jsonResult.data.url
     };
     console.log(result)
     context.done(); 
 }
 
 async function analyzeImage(img){
-    
-    const subscriptionKey = process.env.SUBSCRIPTIONKEY;
+
+    // const subscriptionKey = process.env.SUBSCRIPTIONKEY;
     const uriBase = process.env.ENDPOINT + '/face/v1.0/detect';
 
 
@@ -46,7 +52,7 @@ async function analyzeImage(img){
         body: img,
         headers: {
             'Content-Type': 'application/octet-stream',
-            'Ocp-Apim-Subscription-Key': subscriptionKey
+            'Ocp-Apim-Subscription-Key': process.env.subscriptionKey
         }
     });
 
