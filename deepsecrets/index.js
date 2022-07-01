@@ -47,9 +47,9 @@ const config = {
 
     // query to return all items
     const querySpec = {
-    query: "SELECT top 1 * FROM c order by c._ts desc"
+      query: "SELECT * from c"
     };
-
+ 
     // read all items in the Items container
     const { resources: items } = await container.items
     .query(querySpec)
@@ -68,8 +68,9 @@ module.exports = async function (context, req) {
     let message = queryObject.Body; // this is the user's input
     let document = {"message": message}
     let items = await createDocument(document)
+    let random_value = Math.floor(items.length * Math.random());
 
-    const responseMessage = `Thanks 😊! Stored your secret "${message}". 😯 Someone confessed that: ${JSON.stringify(items[0].message)}`
+    const responseMessage = `Thanks 😊! Stored your secret "${message}". 😯 Someone confessed that: ${JSON.stringify(items[random_value].message)}`
     context.res = {
         // status: 200, /* Defaults to 200 */
         body: responseMessage
