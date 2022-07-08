@@ -17,6 +17,7 @@ function () {
 
     for (let i = 0; i < 4; i++) {
         let cat = nameList[i];
-        imageList[i].src = 'https://jonathanrogersbitprojectserverless2022.azurewebsites.net/api/twocatz?code=1F9TlA5QmsHoWjUt1fVaFSbIOWZEtl_g6QKH7TXSrYLgAzFuo52pNg%3D%3D&name=' + cat;
+        image = 'https://jonathanrogersbitprojectserverless2022.azurewebsites.net/api/twocatz?code=1F9TlA5QmsHoWjUt1fVaFSbIOWZEtl_g6QKH7TXSrYLgAzFuo52pNg%3D%3D&name=' + cat
+        imageList[i].src = 'data:image/png;base64,' + image;
     }
 });
